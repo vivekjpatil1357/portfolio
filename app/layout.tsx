@@ -15,6 +15,29 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vivek Patil - Software Developer",
   description: "Portfolio of Vivek Patil - Full Stack Developer specializing in React, Next.js, and Cloud Technologies",
+  metadataBase: new URL("https://vivekpatil.me"),
+  openGraph: {
+    title: "Vivek Patil - Software Developer",
+    description: "Portfolio of Vivek Patil - Full Stack Developer specializing in React, Next.js, and Cloud Technologies",
+    url: "https://vivekpatil.me",
+    siteName: "Vivek Patil Portfolio",
+    images: [
+      {
+        url: "/me.png",
+        width: 800,
+        height: 800,
+        alt: "Vivek Patil",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vivek Patil - Software Developer",
+    description: "Portfolio of Vivek Patil - Full Stack Developer specializing in React, Next.js, and Cloud Technologies",
+    images: ["/me.png"],
+  },
 };
 
 export default function RootLayout({
