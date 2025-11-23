@@ -38,6 +38,11 @@ export const metadata: Metadata = {
     description: "Portfolio of Vivek Patil - Full Stack Developer specializing in React, Next.js, and Cloud Technologies",
     images: ["/me.png"],
   },
+  icons: {
+    icon: "/me.png",
+    shortcut: "/me.png",
+    apple: "/me.png",
+  },
 };
 
 export default function RootLayout({
