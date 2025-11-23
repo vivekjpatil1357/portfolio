@@ -1,13 +1,89 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FloatingDock } from "@/components/ui/floating-dock";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Mail, Phone, MapPin, Linkedin, Github, Code2, Award, Briefcase, GraduationCap, Folder, ExternalLink, Globe, ArrowUpRight, Download } from "lucide-react";
+import
+  {
+    Briefcase,
+    Code2,
+    GraduationCap,
+    Mail,
+    MapPin,
+    Phone,
+    Trophy,
+    User,
+    ExternalLink,
+    Github,
+    Linkedin,
+    ChevronDown,
+    ChevronUp,
+    Home as IconHome,
+    Folder,
+    ArrowUpRight,
+    Download,
+    Award,
+  } from "lucide-react";
 import Image from "next/image";
+import { ExperienceItem } from "@/components/experience-item";
 
-export default function Home() {
+export default function Home()
+{
+  const skillCategories = [
+    {
+      title: "Languages",
+      skills: [
+        { name: "C", icon: "https://skillicons.dev/icons?i=c" },
+        { name: "C++", icon: "https://skillicons.dev/icons?i=cpp" },
+        { name: "Java", icon: "https://skillicons.dev/icons?i=java" },
+        { name: "Python", icon: "https://skillicons.dev/icons?i=py" },
+        { name: "JavaScript", icon: "https://skillicons.dev/icons?i=js" },
+        { name: "TypeScript", icon: "https://skillicons.dev/icons?i=ts" },
+        { name: "PHP", icon: "https://skillicons.dev/icons?i=php" },
+      ]
+    },
+    {
+      title: "Frameworks & Libraries",
+      skills: [
+        { name: "React", icon: "https://skillicons.dev/icons?i=react" },
+        { name: "Next.js", icon: "https://skillicons.dev/icons?i=nextjs" },
+        { name: "Node.js", icon: "https://skillicons.dev/icons?i=nodejs" },
+        { name: "Express", icon: "https://skillicons.dev/icons?i=express" },
+        { name: "Tailwind", icon: "https://skillicons.dev/icons?i=tailwind" },
+        { name: "Electron", icon: "https://skillicons.dev/icons?i=electron" },
+        { name: "Flask", icon: "https://skillicons.dev/icons?i=flask" },
+        { name: "Django", icon: "https://skillicons.dev/icons?i=django" },
+      ]
+    },
+    {
+      title: "Tools & Databases",
+      skills: [
+        { name: "MongoDB", icon: "https://skillicons.dev/icons?i=mongodb" },
+        { name: "PostgreSQL", icon: "https://skillicons.dev/icons?i=postgres" },
+        { name: "MySQL", icon: "https://skillicons.dev/icons?i=mysql" },
+        { name: "Prisma", icon: "https://skillicons.dev/icons?i=prisma" },
+        { name: "Git", icon: "https://skillicons.dev/icons?i=git" },
+        { name: "Postman", icon: "https://skillicons.dev/icons?i=postman" },
+        { name: "Vercel", icon: "https://skillicons.dev/icons?i=vercel" },
+        { name: "AWS", icon: "https://skillicons.dev/icons?i=aws" },
+        { name: "DynamoDB", icon: "https://skillicons.dev/icons?i=dynamodb" },
+      ]
+    }
+  ];
+
+  const navItems = [
+    { title: "Home", icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#home" },
+    { title: "Skills", icon: <Code2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#skills" },
+    { title: "Experience", icon: <Briefcase className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#experience" },
+    { title: "Education", icon: <GraduationCap className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#education" },
+    { title: "Projects", icon: <Folder className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#projects" },
+    { title: "Achievements", icon: <Award className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#achievements" },
+  ];
+
   return (
     <div className="min-h-screen bg-black">
+      <div className="fixed left-4 top-1/2 z-50 -translate-y-1/2 hidden md:block">
+        <FloatingDock items={navItems} />
+      </div>
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full filter blur-3xl animate-blob"></div>
@@ -23,6 +99,7 @@ export default function Home() {
               Vivek Patil
             </h1>
             <div className="flex gap-2 flex-wrap justify-center">
+
               <Button variant="outline" size="sm" className="shadow-[inset_0_2px_8px_rgba(0,0,0,0.7)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all hover:scale-105 border-white/20 bg-white" asChild>
                 <a href="mailto:vivekjpatil1357@gmail.com">
                   <Mail className="h-4 w-4 mr-2" />
@@ -51,119 +128,102 @@ export default function Home() {
           </div>
         </div>
       </header>
-
       <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Hero Section */}
-        <section className="mb-24 pt-10 sm:pt-20">
+        <section id="home" className="mb-24 pt-10 sm:pt-20">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-24">
             {/* Left: Image */}
             <div className="relative w-68 h-68 md:w-80 md:h-80 lg:w-96 lg:h-96 shrink-0">
-               <div className="absolute bg-gradient-to-br from-white/10 to-transparent blur-2xl -z-10"></div>
-               <Image
-                  src="/me.png"
-                  alt="Vivek Patil"
-                  fill
-                  className="object-contain "
-                  priority
-               />
+              <div className="absolute bg-gradient-to-br from-white/10 to-transparent blur-2xl -z-10"></div>
+              <Image
+                src="/me.png"
+                alt="Vivek Patil"
+                fill
+                draggable={false}
+                className="object-contain "
+                priority
+              />
             </div>
 
             {/* Right: Text Content */}
             <div className="flex flex-col items-start max-w-xl pt-4 gap-4">
-               <h1 className="text-6xl md:text-7xl font-bold tracking-tighter text-white">
-                  Vivek Patil
-               </h1>
-               <h2 className="text-2xl md:text-3xl font-medium text-white/80 ">
-                  Full Stack Developer
-               </h2>
-               <p className="text-lg text-white/60 leading-relaxed">
-                  Leading development of scalable web applications using React, TypeScript, and Node.js.
-                  Passionate about building pixel-perfect UI/UX and solving complex problems.
-               </p>
+              <h1 className="text-6xl md:text-7xl font-bold tracking-tighter text-white">
+                Vivek Patil
+              </h1>
+              <h2 className="text-2xl md:text-3xl font-medium text-white/80 ">
+                SDE Intern
+              </h2>
+              <p className="text-lg text-white/60 leading-relaxed">
+                Leading development of scalable web applications using React, TypeScript, and Node.js.
+                Passionate about building pixel-perfect UI/UX and solving complex problems.
+              </p>
 
-               {/* Meta Info */}
-               <div className="space-y-2 text-sm text-white/40 font-mono">
-                  <div className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
-                     <a href="https://veltos.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-                        Pi Reality <ArrowUpRight className="h-3 w-3" />
-                     </a>
-                  </div>
-                  <div>Jun 2025 - Present</div>
-                  <div>Pune, Maharashtra, India</div>
-               </div>
+              {/* Meta Info */}
+              <div className="space-y-2 text-sm text-white/40 font-mono">
+                <div className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
+                  <a href="https://veltos.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                    Pi Reality <ArrowUpRight className="h-3 w-3" />
+                  </a>
+                </div>
+                <div>Jun 2025 - Present</div>
+                <div>Pune, Maharashtra, India</div>
+              </div>
 
-               {/* Buttons */}
+              {/* Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <Button variant="outline" size="lg" className="shadow-[inset_0_2px_8px_rgba(0,0,0,0.7)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all  border-white/20 bg-white" asChild>
-                <a href="mailto:vivekjpatil1357@gmail.com" target="_blank" rel="noopener noreferrer">
-                  <Code2 className="h-4 w-4 mr-2" />
-                  vivekjpatil1357@gmail.com
-                </a>
-              </Button>
-                  
+                  <a href="mailto:vivekjpatil1357@gmail.com" target="_blank" rel="noopener noreferrer">
+                    <Code2 className="h-4 w-4 mr-2" />
+                    vivekjpatil1357@gmail.com
+                  </a>
+                </Button>
+
                 <Button variant="outline" size="lg" className="shadow-[inset_0_2px_8px_rgba(0,0,0,0.7)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all  border-white/20 bg-gradient-to-br from-[#f6db91] via-[#ffffff] to-[#cd8181]" asChild>
-                     <a href="/resume.pdf" download>
-                        Download CV <Download className="ml-2 h-4 w-4" />
-                     </a>
-                  </Button>
-               </div>
+                  <a href="/resume.pdf" download>
+                    Download CV <Download className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Skills Section */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-br from-neutral-800 to-black rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8),0_4px_15px_rgba(255,255,255,0.1)] border border-white/10">
+        <section id="skills" className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <Code2 className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">Skills & Abilities</h2>
+            <h2 className="text-3xl font-bold text-white tracking-tight">Skills & Technologies</h2>
           </div>
-          <Card className="shadow-[inset_0_2px_20px_rgba(0,0,0,0.8),0_10px_40px_rgba(255,255,255,0.1)] bg-gradient-to-br from-neutral-900 to-black backdrop-blur-sm border-2 border-white/10 hover:shadow-[inset_0_2px_30px_rgba(0,0,0,0.9),0_15px_50px_rgba(255,255,255,0.15)] transition-all duration-300">
-            <CardContent className="pt-6">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-semibold mb-3 text-sm text-white/60 uppercase tracking-wider">Programming Languages</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {["C", "C++", "Java", "Python", "JavaScript", "TypeScript", "PHP"].map((skill) => (
-                      <Badge key={skill} variant="secondary" className="px-4 py-2 text-sm shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all hover:scale-105 cursor-default bg-white/5 text-white border border-white/10">{skill}</Badge>
-                    ))}
-                  </div>
-                </div>
-                <Separator className="bg-white/10" />
-                <div>
-                  <h3 className="font-semibold mb-3 text-sm text-white/60 uppercase tracking-wider">Frameworks & Libraries</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {["Tailwind", "React.js", "ShadCN", "Next.js", "Express.js", "Electron.js", "Node.js", "Flask", "Django", "Socket.io"].map((skill) => (
-                      <Badge key={skill} variant="secondary" className="px-4 py-2 text-sm shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all hover:scale-105 cursor-default bg-white/5 text-white border border-white/10">{skill}</Badge>
-                    ))}
-                  </div>
-                </div>
-                <Separator className="bg-white/10" />
-                <div>
-                  <h3 className="font-semibold mb-3 text-sm text-white/60 uppercase tracking-wider">Tools & Databases</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {["Vercel", "Github", "Postman", "Mongoose", "Prisma", "MongoDB", "MySQL", "PostgreSQL"].map((skill) => (
-                      <Badge key={skill} variant="secondary" className="px-4 py-2 text-sm shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all hover:scale-105 cursor-default bg-white/5 text-white border border-white/10">{skill}</Badge>
-                    ))}
-                  </div>
-                </div>
-                <Separator className="bg-white/10" />
-                <div>
-                  <h3 className="font-semibold mb-3 text-sm text-white/60 uppercase tracking-wider">Cloud & Others</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {["AWS DynamoDB", "AWS S3", "AWS EC2", "DSA (450+ Leetcode)"].map((skill) => (
-                      <Badge key={skill} variant="secondary" className="px-4 py-2 text-sm shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all hover:scale-105 cursor-default bg-white/5 text-white border border-white/10">{skill}</Badge>
-                    ))}
-                  </div>
+
+          <div className="grid gap-8">
+            {skillCategories.map((category, idx) => (
+              <div key={idx} className="space-y-4">
+                <h3 className="text-lg font-semibold text-white/80 border-l-4 border-blue-500/50 ml-1 pl-3">{category.title}</h3>
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                  {category.skills.map((skill) => (
+                    <div key={skill.name} className="group flex flex-col items-center justify-center p-4 bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] cursor-default">
+                      <div className="relative w-10 h-10 sm:w-12 sm:h-12 mb-3 transition-transform duration-300 group-hover:scale-110">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={skill.icon}
+                          alt={skill.name}
+                          className="w-full h-full object-contain drop-shadow-lg"
+                          loading="lazy"
+                        />
+                      </div>
+                      <span className="text-xs sm:text-sm font-medium text-white/60 group-hover:text-white transition-colors text-center">{skill.name}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            ))}
+          </div>
         </section>
 
         {/* Experience Section */}
-        <section className="mb-16">
+        <section id="experience" className="mb-16">
           <div className="flex w-full items-end justify-between mb-10">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tighter text-white">
               Experience
@@ -171,108 +231,75 @@ export default function Home() {
           </div>
 
           <ul className="space-y-0">
-            <li className="flex flex-col justify-between border-b border-white/20 py-10 md:flex-row gap-6">
-              <div className="max-w-lg text-lg lg:text-xl font-semibold tracking-tighter lg:w-1/3 text-white/90">
-                Jun 2025 - Present
-              </div>
-              <div className="lg:w-1/3">
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className="text-xl sm:text-2xl font-semibold tracking-tighter text-white">
-                    Software Developer Intern
-                  </h3>
-                  <Badge variant="default" className="bg-white text-black hover:bg-white/90 text-xs">Current</Badge>
-                </div>
-                <div className="flex items-center gap-2 mb-4 text-white/70">
-                  <Globe className="h-4 w-4" />
-                  <a href="https://veltos.ai" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline">veltos.ai</a>
-                </div>
-                <ul className="space-y-2 text-white/60 text-sm sm:text-base">
-                  <li className="flex gap-2">
-                    <span>•</span>
-                    <span>Developed and deployed a full-stack web platform that integrates APIs to generate 3D models, environments, and games from text prompts, managing assets and user interactions using NEXT.JS, Three.js, AWS S3, and DynamoDB, now live with 500+ users and 1000s of generated assets.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span>•</span>
-                    <span>Independently designed and implemented DynamoDB tables, APIs, and frontend, integrating React Query and secure public game links (dynamically generated and encoded with salt).</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span>•</span>
-                    <span>Built game versioning and prompt-based evolution features, storing chats and enabling undo/redo navigation across multiple versions.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span>•</span>
-                    <span>Integrated Razorpay subscription payments (with webhook handling) and Clerk authentication for secure onboarding and access control.</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="text-left md:text-right lg:w-1/4 text-white font-semibold text-lg">
-                Pi Reality
-              </div>
-            </li>
+            <ExperienceItem
+              date="Jun 2025 - Present"
+              title="Software Developer Intern"
+              company="Pi Reality"
+              link="https://veltos.ai"
+              linkText="veltos.ai"
+              isCurrent={true}
+              description={[
+                "Sole web developer for the entire Veltos.ai platform (Next.js, Node/Express), owning architecture, UI, backend services, DB design, caching, storage, auth, and deployment on Vercel.",
+                "Engineered game versioning, publishing, downloading and a full community system with secure in-browser game render-ing via Iframes, backed by optimized DynamoDB tables (PK/SK + GSIs).",
+                "Designed a structured AWS S3 asset pipeline for storing and retrieving game files using deterministic key patterns, removing the need for stored URLs and enabling efficient access.",
+                "Developed a subscription + credit-based payment system with a separate payment microservice (Node/Express), secure checkout, webhooks and automatic subscription/credit lifecycle management.",
+                "Implemented Clerk authentication, security middlewares, Redis caching for high-speed community data, and performance optimizations (SSR/CSR tuning, lazy loading, caching layers) for a fast, scalable platform."
+              ]}
+            />
 
-            <li className="flex flex-col justify-between border-b border-white/20 py-10 md:flex-row gap-6">
-              <div className="max-w-lg text-lg lg:text-xl font-semibold tracking-tighter lg:w-1/3 text-white/90">
-                Jun 2023 - Aug 2023
-              </div>
-              <div className="lg:w-1/3">
-                <h3 className="mb-4 text-xl sm:text-2xl font-semibold tracking-tighter text-white">
-                  Python Django Trainee
-                </h3>
-                <ul className="space-y-2 text-white/60 text-sm sm:text-base">
-                  <li className="flex gap-2">
-                    <span>•</span>
-                    <span>Implemented a video calling application using Django which supports 50+ people at one Meet, while learning full-stack development.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span>•</span>
-                    <span>Acquired experience in REST APIs, models and frontend-backend integration.</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="text-left md:text-right lg:w-1/4 text-white font-semibold text-lg">
-                Sumago Infotech Pvt. Ltd.
-              </div>
-            </li>
+            <ExperienceItem
+              date="Jun 2023 - Aug 2023"
+              title="Python Django Trainee"
+              company="Sumago Infotech Pvt. Ltd."
+              description={[
+                "Built a video calling application using Django which supports 50+ people at one Meet, while learning full-stack development.",
+                "Acquired experience in REST APIs, models and frontend-backend integration."
+              ]}
+            />
           </ul>
         </section>
 
         {/* Education Section */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-br from-neutral-800 to-black rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8),0_4px_15px_rgba(255,255,255,0.1)] border border-white/10">
+        <section id="education" className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">Education</h2>
+            <h2 className="text-3xl font-bold text-white tracking-tight">Education</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="shadow-[inset_0_2px_20px_rgba(0,0,0,0.8),0_10px_40px_rgba(255,255,255,0.1)] hover:shadow-[inset_0_2px_30px_rgba(0,0,0,0.9),0_15px_50px_rgba(255,255,255,0.15)] transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-neutral-900 to-black border-t-4 border-t-white border-2 border-white/10">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group">
               <CardHeader>
-                <CardTitle className="text-lg sm:text-xl text-white">B.E in Computer Engineering</CardTitle>
-                <CardDescription className="font-medium text-white/70 mt-1">RMD Sinhgad School of Engineering, Pune</CardDescription>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl text-white group-hover:text-blue-400 transition-colors">B.E in Computer Engineering</CardTitle>
+                    <CardDescription className="text-white/60 mt-2">RMD Sinhgad School of Engineering, Pune</CardDescription>
+                  </div>
+                  <Badge variant="outline" className="border-white/10 text-white/60 bg-white/5">2024 - 2027</Badge>
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2 text-sm">
-                  <p className="text-white/60">Aug 2024 - May 2027</p>
-                  <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 bg-white rounded-full shadow-md"></div>
-                    <p className="font-semibold text-white text-lg">CGPA: 9.23</p>
-                  </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="h-2 w-2 bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                  <p className="font-medium text-white">CGPA: 9.23</p>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="shadow-[inset_0_2px_20px_rgba(0,0,0,0.8),0_10px_40px_rgba(255,255,255,0.1)] hover:shadow-[inset_0_2px_30px_rgba(0,0,0,0.9),0_15px_50px_rgba(255,255,255,0.15)] transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-neutral-900 to-black border-t-4 border-t-white/60 border-2 border-white/10">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group">
               <CardHeader>
-                <CardTitle className="text-lg sm:text-xl text-white">Diploma in Computer Engineering</CardTitle>
-                <CardDescription className="font-medium text-white/70 mt-1">KCE&apos;s College of Engineering, Jalgaon</CardDescription>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <CardTitle className="text-xl text-white group-hover:text-blue-400 transition-colors">Diploma in Computer Engineering</CardTitle>
+                    <CardDescription className="text-white/60 mt-2">KCE&apos;s College of Engineering, Jalgaon</CardDescription>
+                  </div>
+                  <Badge variant="outline" className="border-white/10 text-white/60 bg-white/5">2021 - 2024</Badge>
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2 text-sm">
-                  <p className="text-white/60">Jun 2021 - May 2024</p>
-                  <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 bg-white/60 rounded-full shadow-md"></div>
-                    <p className="font-semibold text-white text-lg">Percentage: 89.88%</p>
-                  </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="h-2 w-2 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                  <p className="font-medium text-white">Percentage: 89.88%</p>
                 </div>
               </CardContent>
             </Card>
@@ -280,167 +307,173 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-br from-neutral-800 to-black rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8),0_4px_15px_rgba(255,255,255,0.1)] border border-white/10">
+        <section id="projects" className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <Folder className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">Featured Projects</h2>
+            <h2 className="text-3xl font-bold text-white tracking-tight">Featured Projects</h2>
           </div>
           <div className="grid lg:grid-cols-2 gap-6">
-            <Card className="shadow-[inset_0_2px_20px_rgba(0,0,0,0.8),0_10px_40px_rgba(255,255,255,0.1)] hover:shadow-[inset_0_2px_30px_rgba(0,0,0,0.9),0_20px_60px_rgba(255,255,255,0.2)] transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-neutral-900 to-black border-t-4 border-t-white border-2 border-white/10 group">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group flex flex-col">
               <CardHeader>
                 <div className="flex justify-between items-start gap-2">
                   <div className="flex-1">
-                    <CardTitle className="text-xl sm:text-2xl text-white group-hover:scale-105 transition-transform duration-300">Active File CoPilot</CardTitle>
+                    <CardTitle className="text-xl text-white group-hover:text-blue-400 transition-colors">Active File CoPilot</CardTitle>
                     <div className="flex flex-wrap gap-2 mt-3">
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">Electron.js</Badge>
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">Flask</Badge>
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">Gemini API</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">Electron.js</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">Flask</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">Gemini API</Badge>
                     </div>
                   </div>
+                  <a href="https://github.com/vivekjpatil1357/Pixel-2.0" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                    <Github className="h-6 w-6" />
+                  </a>
                 </div>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 text-sm sm:text-base mb-4">
+              <CardContent className="flex-1 flex flex-col">
+                <ul className="space-y-3 text-sm text-white/60 mb-6 flex-1">
                   <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Built a free GitHub Copilot alternative for AI-powered code completions, debugging, and coding assistance.</span>
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Built a free GitHub Copilot alternative for AI-powered code completions, debugging, and coding assistance.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Made with Electron.js for cross-platform apps, Flask for backend, and Gemini API for AI integration.</span>
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Made with Electron.js for cross-platform apps, Flask for backend, and Gemini API for AI integration.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Features include coding suggestions, error detection, and a real-time chat interface.</span>
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Features include coding suggestions, error detection, and a real-time chat interface.</span>
                   </li>
                 </ul>
-                <Button className="w-full sm:w-auto bg-white text-black hover:bg-white/90 shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.4)] transition-all" asChild>
+                <Button className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all group-hover:border-white/20" asChild>
                   <a href="https://github.com/vivekjpatil1357/Pixel-2.0" target="_blank" rel="noopener noreferrer">
-                    <Github className="h-4 w-4 mr-2" />
-                    View on GitHub
-                    <ExternalLink className="h-4 w-4 ml-2" />
+                    View Project <ArrowUpRight className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
               </CardContent>
             </Card>
 
-            <Card className="shadow-[inset_0_2px_20px_rgba(0,0,0,0.8),0_10px_40px_rgba(255,255,255,0.1)] hover:shadow-[inset_0_2px_30px_rgba(0,0,0,0.9),0_20px_60px_rgba(255,255,255,0.2)] transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-neutral-900 to-black border-t-4 border-t-white/80 border-2 border-white/10 group">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group flex flex-col">
               <CardHeader>
                 <div className="flex justify-between items-start gap-2">
                   <div className="flex-1">
-                    <CardTitle className="text-xl sm:text-2xl text-white group-hover:scale-105 transition-transform duration-300">Personal Virtual Assistant for PC</CardTitle>
+                    <CardTitle className="text-xl text-white group-hover:text-blue-400 transition-colors">Personal Virtual Assistant</CardTitle>
                     <div className="flex flex-wrap gap-2 mt-3">
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">Electron.js</Badge>
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">Flask</Badge>
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">Gemini API</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">Electron.js</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">Flask</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">Gemini API</Badge>
                     </div>
                   </div>
+                  <a href="https://github.com/vivekjpatil1357/Virtual_AI_assistant_for_PC" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                    <Github className="h-6 w-6" />
+                  </a>
                 </div>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 text-sm sm:text-base mb-4">
+              <CardContent className="flex-1 flex flex-col">
+                <ul className="space-y-3 text-sm text-white/60 mb-6 flex-1">
                   <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Created an AI assistant with song playback, news, and weather, along with code error solving.</span>
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Created an AI assistant with song playback, news, and weather, along with code error solving.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Designed a cross-platform desktop app with Electron.js and Flask.</span>
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Designed a cross-platform desktop app with Electron.js and Flask.</span>
                   </li>
                   <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Added Google&apos;s Gemini API for live Q&A, news, weather, and music integration.</span>
+                    <span className="text-blue-400 mt-1">•</span>
+                    <span>Added Google&apos;s Gemini API for live Q&A, news, weather, and music integration.</span>
                   </li>
                 </ul>
-                <Button className="w-full sm:w-auto bg-white text-black hover:bg-white/90 shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.4)] transition-all" asChild>
+                <Button className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all group-hover:border-white/20" asChild>
                   <a href="https://github.com/vivekjpatil1357/Virtual_AI_assistant_for_PC" target="_blank" rel="noopener noreferrer">
-                    <Github className="h-4 w-4 mr-2" />
-                    View on GitHub
-                    <ExternalLink className="h-4 w-4 ml-2" />
+                    View Project <ArrowUpRight className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
               </CardContent>
             </Card>
 
-            <Card className="shadow-[inset_0_2px_20px_rgba(0,0,0,0.8),0_10px_40px_rgba(255,255,255,0.1)] hover:shadow-[inset_0_2px_30px_rgba(0,0,0,0.9),0_20px_60px_rgba(255,255,255,0.2)] transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-neutral-900 to-black border-t-4 border-t-white/60 border-2 border-white/10 group lg:col-span-2">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group lg:col-span-2">
               <CardHeader>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                <div className="flex justify-between items-start gap-2">
                   <div className="flex-1">
-                    <CardTitle className="text-xl sm:text-2xl text-white group-hover:scale-105 transition-transform duration-300">Video Calling Web App - EasyMeet</CardTitle>
+                    <CardTitle className="text-xl text-white group-hover:text-blue-400 transition-colors">EasyMeet - Video Calling App</CardTitle>
                     <div className="flex flex-wrap gap-2 mt-3">
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">Python Django</Badge>
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">JavaScript</Badge>
-                      <Badge variant="outline" className="bg-white/5 border-white/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">ZEGOCLOUD API</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">Python Django</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">JavaScript</Badge>
+                      <Badge variant="secondary" className="bg-white/5 text-white/80 border-white/10 hover:bg-white/10">ZEGOCLOUD API</Badge>
                     </div>
                   </div>
+                  <a href="https://github.com/vivekjpatil1357/easymeet" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
+                    <Github className="h-6 w-6" />
+                  </a>
                 </div>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-3 text-sm sm:text-base mb-4">
-                  <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Created a real-time video calling web application using Django that supports 50+ participants.</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-white mt-1 font-bold">•</span>
-                    <span className="text-white/80">Unique and secure generation of meeting names for user sessions with robust authentication.</span>
-                  </li>
-                </ul>
-                <Button className="w-full sm:w-auto bg-white text-black hover:bg-white/90 shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_2px_6px_rgba(0,0,0,0.4)] transition-all" asChild>
-                  <a href="https://github.com/vivekjpatil1357/easymeet" target="_blank" rel="noopener noreferrer">
-                    <Github className="h-4 w-4 mr-2" />
-                    View on GitHub
-                    <ExternalLink className="h-4 w-4 ml-2" />
-                  </a>
-                </Button>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <ul className="space-y-3 text-sm text-white/60">
+                    <li className="flex gap-3">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <span>Created a real-time video calling web application using Django.</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="text-blue-400 mt-1">•</span>
+                      <span>Unique and secure generation of meeting names for user sessions.</span>
+                    </li>
+                  </ul>
+                  <div className="flex items-end justify-end">
+                    <Button className="w-full md:w-auto bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all group-hover:border-white/20" asChild>
+                      <a href="https://github.com/vivekjpatil1357/easymeet" target="_blank" rel="noopener noreferrer">
+                        View Project <ArrowUpRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
         </section>
 
         {/* Achievements Section */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-gradient-to-br from-neutral-800 to-black rounded-xl shadow-[inset_0_2px_10px_rgba(0,0,0,0.8),0_4px_15px_rgba(255,255,255,0.1)] border border-white/10">
+        <section id="achievements" className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <Award className="h-6 w-6 text-white" />
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">Achievements</h2>
+            <h2 className="text-3xl font-bold text-white tracking-tight">Achievements</h2>
           </div>
-          <Card className="shadow-[inset_0_2px_20px_rgba(0,0,0,0.8),0_10px_40px_rgba(255,255,255,0.1)] bg-gradient-to-br from-neutral-900 to-black border-2 border-white/10">
-            <CardContent className="pt-6">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="flex items-start gap-4 p-6 rounded-xl bg-white/5 border-2 border-white/10 hover:scale-105 hover:shadow-[inset_0_2px_15px_rgba(0,0,0,0.8),0_10px_30px_rgba(255,255,255,0.15)] transition-all duration-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.6)]">
-                  <div className="p-3 bg-white rounded-lg shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]">
-                    <Code2 className="h-6 w-6 text-black flex-shrink-0" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-2xl text-white">400+</p>
-                    <p className="text-sm text-white/70 mt-1">LeetCode DSA problems solved</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 p-6 rounded-xl bg-white/5 border-2 border-white/10 hover:scale-105 hover:shadow-[inset_0_2px_15px_rgba(0,0,0,0.8),0_10px_30px_rgba(255,255,255,0.15)] transition-all duration-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.6)]">
-                  <div className="p-3 bg-white rounded-lg shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]">
-                    <Award className="h-6 w-6 text-black flex-shrink-0" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-base text-white">Best Project</p>
-                    <p className="text-sm text-white/70 mt-1">KCE state-level competition winner</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 p-6 rounded-xl bg-white/5 border-2 border-white/10 hover:scale-105 hover:shadow-[inset_0_2px_15px_rgba(0,0,0,0.8),0_10px_30px_rgba(255,255,255,0.15)] transition-all duration-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.6)] sm:col-span-2 lg:col-span-1">
-                  <div className="p-3 bg-white rounded-lg shadow-[inset_0_1px_4px_rgba(0,0,0,0.3)]">
-                    <Award className="h-6 w-6 text-black flex-shrink-0" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-base text-white">Best Trainee</p>
-                    <p className="text-sm text-white/70 mt-1">Sumago Infotech Award</p>
-                  </div>
-                </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300">
+              <div className="p-3 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
+                <Code2 className="h-6 w-6 text-white flex-shrink-0" />
               </div>
-            </CardContent>
-          </Card>
+              <div>
+                <p className="font-bold text-2xl text-white group-hover:text-blue-400 transition-colors">450+</p>
+                <p className="text-sm text-white/60 mt-1">LeetCode DSA problems solved</p>
+              </div>
+            </div>
+
+            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300">
+              <div className="p-3 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
+                <Award className="h-6 w-6 text-white flex-shrink-0" />
+              </div>
+              <div>
+                <p className="font-bold text-base text-white group-hover:text-blue-400 transition-colors">Best Project</p>
+                <p className="text-sm text-white/60 mt-1">KCE state-level competition winner</p>
+              </div>
+            </div>
+
+            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300 sm:col-span-2 lg:col-span-1">
+              <div className="p-3 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
+                <Award className="h-6 w-6 text-white flex-shrink-0" />
+              </div>
+              <div>
+                <p className="font-bold text-base text-white group-hover:text-blue-400 transition-colors">Best Trainee</p>
+                <p className="text-sm text-white/60 mt-1">Sumago Infotech Award</p>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
 
@@ -449,7 +482,6 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <p className="text-sm text-white/70 mb-2">© 2025 Vivek Patil. All rights reserved.</p>
-            <p className="text-xs text-white/60">Built with ❤️ using Next.js, TypeScript & ShadCN UI</p>
           </div>
         </div>
       </footer>
