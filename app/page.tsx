@@ -179,7 +179,7 @@ export default function Home()
                 </Button>
 
                 <Button variant="outline" size="lg" className="shadow-[inset_0_2px_8px_rgba(0,0,0,0.7)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all  border-white/20 bg-gradient-to-br from-[#f6db91] via-[#ffffff] to-[#cd8181]" asChild>
-                  <a href="/resume.pdf" download>
+                  <a href="/VivekPatilResume.pdf" download>
                     Download CV <Download className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
