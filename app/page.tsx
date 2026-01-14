@@ -143,6 +143,7 @@ export default function Home()
                 className="object-contain "
                 priority
               />
+              <img src="/images/header.png" alt="" />
             </div>
 
             {/* Right: Text Content */}
