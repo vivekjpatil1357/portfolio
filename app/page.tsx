@@ -139,7 +139,7 @@ export default function Home()
                 src="/me.png"
                 alt="Vivek Patil"
                 fill
-                draggable={false}
+                // draggable={false}
                 className="object-contain "
                 priority
               />
