@@ -139,11 +139,11 @@ export default function Home()
                 src="/me.png"
                 alt="Vivek Patil"
                 fill
-                // draggable={false}
+                draggable={false}
                 className="object-contain "
                 priority
               />
-              <img src="/images/header.png" alt="" />
+              {/* <img src="/images/header.png" alt="" /> */}
             </div>
 
             {/* Right: Text Content */}
