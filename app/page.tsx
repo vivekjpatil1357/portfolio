@@ -1,5 +1,10 @@
+"use client";
+
+import { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FloatingDock } from "@/components/ui/floating-dock";
+import Dock from "@/components/ui/floating-dock";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import
@@ -25,9 +30,156 @@ import
   } from "lucide-react";
 import Image from "next/image";
 import { ExperienceItem } from "@/components/experience-item";
+import GradientWaves from "@/components/gradient-waves";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home()
 {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.from(".hero-image", { scale: 0.8, opacity: 0, duration: 1 })
+        .from(".hero-name", { y: 60, opacity: 0, duration: 0.8 }, "-=0.5")
+        .from(".hero-title", { y: 40, opacity: 0, duration: 0.7 }, "-=0.4")
+        .from(".hero-desc", { y: 30, opacity: 0, duration: 0.6 }, "-=0.3")
+        .from(".hero-meta > div", { y: 20, opacity: 0, stagger: 0.1, duration: 0.5 }, "-=0.2")
+        .from(".hero-btns > *", { y: 20, opacity: 0, stagger: 0.1, duration: 0.5 }, "-=0.3");
+
+      gsap.to(".hero-image", {
+        y: 120,
+        ease: "none",
+        scrollTrigger: { trigger: "#home", start: "top top", end: "bottom top", scrub: 1 },
+      });
+
+      gsap.to(".hero-name", {
+        y: 80,
+        opacity: 0.3,
+        ease: "none",
+        scrollTrigger: { trigger: "#home", start: "top top", end: "bottom top", scrub: 1 },
+      });
+
+      gsap.to(".hero-title", {
+        y: 60,
+        opacity: 0.2,
+        ease: "none",
+        scrollTrigger: { trigger: "#home", start: "top top", end: "bottom top", scrub: 1 },
+      });
+
+      gsap.to(".hero-desc", {
+        y: 40,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: { trigger: "#home", start: "top top", end: "60% top", scrub: 1 },
+      });
+
+      gsap.utils.toArray(".section-header").forEach((el) => {
+        gsap.from(el as gsap.TweenTarget, {
+          x: -60,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el as Element, start: "top 85%", toggleActions: "play none none none" },
+        });
+      });
+
+      gsap.utils.toArray(".skill-category").forEach((el) => {
+        gsap.from(el as gsap.TweenTarget, {
+          x: -30,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el as Element, start: "top 88%", toggleActions: "play none none none" },
+        });
+      });
+
+      gsap.utils.toArray(".skill-card").forEach((el, i) => {
+        gsap.from(el as gsap.TweenTarget, {
+          y: 50,
+          opacity: 0,
+          scale: 0.9,
+          duration: 0.5,
+          delay: (i % 8) * 0.05,
+          ease: "back.out(1.2)",
+          scrollTrigger: { trigger: el as Element, start: "top 92%", toggleActions: "play none none none" },
+        });
+      });
+
+      gsap.utils.toArray(".experience-item").forEach((el) => {
+        gsap.from(el as gsap.TweenTarget, {
+          x: -60,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el as Element, start: "top 85%", toggleActions: "play none none none" },
+        });
+      });
+
+      gsap.utils.toArray(".edu-card").forEach((el, i) => {
+        gsap.from(el as gsap.TweenTarget, {
+          y: 60,
+          opacity: 0,
+          rotateX: 8,
+          duration: 0.8,
+          delay: i * 0.15,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el as Element, start: "top 85%", toggleActions: "play none none none" },
+        });
+      });
+
+      gsap.utils.toArray(".project-card").forEach((el, i) => {
+        gsap.from(el as gsap.TweenTarget, {
+          y: 80,
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.8,
+          delay: i * 0.12,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el as Element, start: "top 88%", toggleActions: "play none none none" },
+        });
+      });
+
+      gsap.utils.toArray(".achieve-card").forEach((el, i) => {
+        gsap.from(el as gsap.TweenTarget, {
+          y: 40,
+          opacity: 0,
+          scale: 0.85,
+          duration: 0.6,
+          delay: i * 0.1,
+          ease: "back.out(1.7)",
+          scrollTrigger: { trigger: el as Element, start: "top 90%", toggleActions: "play none none none" },
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>(".section-header").forEach((el) => {
+        const heading = el.querySelector("h2");
+        if (!heading) return;
+        gsap.fromTo(heading,
+          { backgroundSize: "0% 100%" },
+          {
+            backgroundSize: "100% 100%",
+            duration: 1,
+            ease: "power2.inOut",
+            scrollTrigger: { trigger: el, start: "top 80%", end: "top 40%", scrub: 1 },
+          }
+        );
+      });
+
+      const footer = document.querySelector("footer");
+      if (footer) {
+        gsap.from(footer as gsap.TweenTarget, {
+          y: 30,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: { trigger: footer as Element, start: "top 95%", toggleActions: "play none none none" },
+        });
+      }
+    });
+
+    return () => ctx.revert();
+  }, []);
   const skillCategories = [
     {
       title: "Languages",
@@ -71,25 +223,48 @@ export default function Home()
   ];
 
   const navItems = [
-    { title: "Home", icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#home" },
-    { title: "Skills", icon: <Code2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#skills" },
-    { title: "Experience", icon: <Briefcase className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#experience" },
-    { title: "Education", icon: <GraduationCap className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#education" },
-    { title: "Projects", icon: <Folder className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#projects" },
-    { title: "Achievements", icon: <Award className="h-full w-full text-neutral-500 dark:text-neutral-300" />, href: "#achievements" },
+    { label: "Home", icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />, onClick: () => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: "Skills", icon: <Code2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />, onClick: () => document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: "Experience", icon: <Briefcase className="h-full w-full text-neutral-500 dark:text-neutral-300" />, onClick: () => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: "Education", icon: <GraduationCap className="h-full w-full text-neutral-500 dark:text-neutral-300" />, onClick: () => document.getElementById('education')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: "Projects", icon: <Folder className="h-full w-full text-neutral-500 dark:text-neutral-300" />, onClick: () => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' }) },
+    { label: "Achievements", icon: <Award className="h-full w-full text-neutral-500 dark:text-neutral-300" />, onClick: () => document.getElementById('achievements')?.scrollIntoView({ behavior: 'smooth' }) },
   ];
 
   return (
-    <div className="min-h-screen bg-black">
-      <div className="fixed left-4 top-1/2 z-50 -translate-y-1/2 hidden md:block">
-        <FloatingDock items={navItems} />
+    <div className="min-h-screen">
+      {/* Gradient Waves Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <GradientWaves
+          horizonColor="#1a0533"
+          waveColor="#6b21a8"
+          crestColor="#c084fc"
+          speed={0.35}
+          amplitude={2.5}
+          waveScale={0.6}
+          waveRatio={0.9}
+          swell={35}
+          turbulence={20}
+          tilt={1.11}
+          zoom={1.0}
+          height={8.5}
+          fogDepth={15}
+          detail="medium"
+          brightness={1.2}
+          opacity={1.0}
+          mouseInteraction
+          parallaxStrength={0.5}
+          grain
+          grainIntensity={0.04}
+        />
       </div>
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-white/5 rounded-full filter blur-3xl animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-white/5 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-white/5 rounded-full filter blur-3xl animate-blob animation-delay-4000"></div>
-      </div>
+
+      <div className="relative z-10">
+        <div className="fixed left-0 top-0 bottom-0 z-50 flex items-center pointer-events-none">
+          <div className="pointer-events-auto">
+            <Dock items={navItems} />
+          </div>
+        </div>
 
       {/* Header Section */}
       <header className="backdrop-blur-xl bg-black/10 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] sticky top-0 z-50 border-b border-white/10">
@@ -133,7 +308,7 @@ export default function Home()
         <section id="home" className="mb-24 pt-10 sm:pt-20">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-24">
             {/* Left: Image */}
-            <div className="relative w-68 h-68 md:w-80 md:h-80 lg:w-96 lg:h-96 shrink-0">
+            <div className="relative w-68 h-68 md:w-80 md:h-80 lg:w-96 lg:h-96 shrink-0 hero-image">
               <div className="absolute bg-gradient-to-br from-white/10 to-transparent blur-2xl -z-10"></div>
               <Image
                 src="/me.png"
@@ -148,19 +323,19 @@ export default function Home()
 
             {/* Right: Text Content */}
             <div className="flex flex-col items-start max-w-xl pt-4 gap-4">
-              <h1 className="text-6xl md:text-7xl font-bold tracking-tighter text-white">
+              <h1 className="text-6xl md:text-7xl font-bold tracking-tighter text-white hero-name">
                 Vivek Patil
               </h1>
-              <h2 className="text-2xl md:text-3xl font-medium text-white/80 ">
+              <h2 className="text-2xl md:text-3xl font-medium text-white/80 hero-title">
                 SDE Intern
               </h2>
-              <p className="text-lg text-white/60 leading-relaxed">
+              <p className="text-lg text-white/60 leading-relaxed hero-desc">
                 Leading development of scalable web applications using React, TypeScript, and Node.js.
                 Passionate about building pixel-perfect UI/UX and solving complex problems.
               </p>
 
               {/* Meta Info */}
-              <div className="space-y-2 text-sm text-white/40 font-mono">
+              <div className="space-y-2 text-sm text-white/40 font-mono hero-meta">
                 <div className="flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                   <a href="https://veltos.ai" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
                     Pi Reality <ArrowUpRight className="h-3 w-3" />
@@ -171,7 +346,7 @@ export default function Home()
               </div>
 
               {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto hero-btns">
                 <Button variant="outline" size="lg" className="shadow-[inset_0_2px_8px_rgba(0,0,0,0.7)] hover:shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] transition-all  border-white/20 bg-white" asChild>
                   <a href="mailto:vivekjpatil1357@gmail.com" target="_blank" rel="noopener noreferrer">
                     <Code2 className="h-4 w-4 mr-2" />
@@ -191,7 +366,7 @@ export default function Home()
 
         {/* Skills Section */}
         <section id="skills" className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-8 section-header">
             <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <Code2 className="h-6 w-6 text-white" />
             </div>
@@ -200,11 +375,11 @@ export default function Home()
 
           <div className="grid gap-8">
             {skillCategories.map((category, idx) => (
-              <div key={idx} className="space-y-4">
+              <div key={idx} className="space-y-4 skill-category">
                 <h3 className="text-lg font-semibold text-white/80 border-l-4 border-blue-500/50 ml-1 pl-3">{category.title}</h3>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
                   {category.skills.map((skill) => (
-                    <div key={skill.name} className="group flex flex-col items-center justify-center p-4 bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] cursor-default">
+                    <div key={skill.name} className="group flex flex-col items-center justify-center p-4 bg-neutral-900/50 backdrop-blur-sm rounded-xl border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(255,255,255,0.05)] cursor-default skill-card">
                       <div className="relative w-10 h-10 sm:w-12 sm:h-12 mb-3 transition-transform duration-300 group-hover:scale-110">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -225,13 +400,14 @@ export default function Home()
 
         {/* Experience Section */}
         <section id="experience" className="mb-16">
-          <div className="flex w-full items-end justify-between mb-10">
+          <div className="flex w-full items-end justify-between mb-10 section-header">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tighter text-white">
               Experience
             </h2>
           </div>
 
           <ul className="space-y-0">
+            <div className="experience-item">
             <ExperienceItem
               date="Jun 2025 - Present"
               title="Software Developer Intern"
@@ -247,7 +423,9 @@ export default function Home()
                 "Implemented Clerk authentication, security middlewares, Redis caching for high-speed community data, and performance optimizations (SSR/CSR tuning, lazy loading, caching layers) for a fast, scalable platform."
               ]}
             />
+            </div>
 
+            <div className="experience-item">
             <ExperienceItem
               date="Jun 2023 - Aug 2023"
               title="Python Django Trainee"
@@ -257,19 +435,20 @@ export default function Home()
                 "Acquired experience in REST APIs, models and frontend-backend integration."
               ]}
             />
+            </div>
           </ul>
         </section>
 
         {/* Education Section */}
         <section id="education" className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-8 section-header">
             <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
             <h2 className="text-3xl font-bold text-white tracking-tight">Education</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group edu-card">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
@@ -287,7 +466,7 @@ export default function Home()
               </CardContent>
             </Card>
 
-            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group edu-card">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
@@ -309,14 +488,14 @@ export default function Home()
 
         {/* Projects Section */}
         <section id="projects" className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-8 section-header">
             <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <Folder className="h-6 w-6 text-white" />
             </div>
             <h2 className="text-3xl font-bold text-white tracking-tight">Featured Projects</h2>
           </div>
           <div className="grid lg:grid-cols-2 gap-6">
-            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group flex flex-col">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group flex flex-col project-card">
               <CardHeader>
                 <div className="flex justify-between items-start gap-2">
                   <div className="flex-1">
@@ -355,7 +534,7 @@ export default function Home()
               </CardContent>
             </Card>
 
-            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group flex flex-col">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group flex flex-col project-card">
               <CardHeader>
                 <div className="flex justify-between items-start gap-2">
                   <div className="flex-1">
@@ -394,7 +573,7 @@ export default function Home()
               </CardContent>
             </Card>
 
-            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group lg:col-span-2">
+            <Card className="bg-neutral-900/50 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] hover:-translate-y-1 group lg:col-span-2 project-card">
               <CardHeader>
                 <div className="flex justify-between items-start gap-2">
                   <div className="flex-1">
@@ -437,7 +616,7 @@ export default function Home()
 
         {/* Achievements Section */}
         <section id="achievements" className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-3 mb-8 section-header">
             <div className="p-3 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
               <Award className="h-6 w-6 text-white" />
             </div>
@@ -445,7 +624,7 @@ export default function Home()
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300">
+            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300 achieve-card">
               <div className="p-3 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
                 <Code2 className="h-6 w-6 text-white flex-shrink-0" />
               </div>
@@ -455,7 +634,7 @@ export default function Home()
               </div>
             </div>
 
-            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300">
+            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300 achieve-card">
               <div className="p-3 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
                 <Award className="h-6 w-6 text-white flex-shrink-0" />
               </div>
@@ -465,7 +644,7 @@ export default function Home()
               </div>
             </div>
 
-            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300 sm:col-span-2 lg:col-span-1">
+            <div className="group flex items-start gap-4 p-6 rounded-xl bg-neutral-900/50 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-300 sm:col-span-2 lg:col-span-1 achieve-card">
               <div className="p-3 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
                 <Award className="h-6 w-6 text-white flex-shrink-0" />
               </div>
@@ -486,6 +665,7 @@ export default function Home()
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 }

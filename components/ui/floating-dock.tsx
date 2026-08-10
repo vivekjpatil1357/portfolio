@@ -1,200 +1,202 @@
-"use client"
-import { cn } from "@/lib/utils";
-import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
-import
-  {
-    AnimatePresence,
-    MotionValue,
-    motion,
-    useMotionValue,
-    useSpring,
-    useTransform,
-  } from "motion/react";
+'use client';
 
-import { useRef, useState } from "react";
+import {
+  motion,
+  MotionValue,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  type SpringOptions,
+  AnimatePresence
+} from 'motion/react';
+import React, { Children, cloneElement, useEffect, useMemo, useRef, useState } from 'react';
 
-export const FloatingDock = ({
-  items,
-  desktopClassName,
-  mobileClassName,
-}: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
-  desktopClassName?: string;
-  mobileClassName?: string;
-}) =>
-{
-  return (
-    <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
-    </>
-  );
+export type DockItemData = {
+  icon: React.ReactNode;
+  label: React.ReactNode;
+  onClick: () => void;
+  className?: string;
 };
 
-const FloatingDockMobile = ({
-  items,
-  className,
-}: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+export type DockProps = {
+  items: DockItemData[];
   className?: string;
-}) =>
-{
-  const [open, setOpen] = useState(false);
-  return (
-    <div className={cn("relative block md:hidden", className)}>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            layoutId="nav"
-            className="absolute inset-x-0 bottom-full mb-2 flex flex-col gap-2 "
-          >
-            {items.map((item, idx) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  y: 10,
-                  transition: {
-                    delay: idx * 0.05,
-                  },
-                }}
-                transition={{ delay: (items.length - 1 - idx) * 0.05 }}
-              >
-                <a
-                  href={item.href}
-                  key={item.title}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 dark:bg-neutral-900"
-                >
-                  <div className="h-4 w-4">{item.icon}</div>
-                </a>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 dark:bg-neutral-800"
-      >
-        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
-      </button>
-    </div>
-  );
+  distance?: number;
+  panelWidth?: number;
+  baseItemSize?: number;
+  dockWidth?: number;
+  magnification?: number;
+  spring?: SpringOptions;
 };
 
-const FloatingDockDesktop = ({
-  items,
-  className,
-}: {
-  items: { title: string; icon: React.ReactNode; href: string }[];
+type DockItemProps = {
   className?: string;
-}) =>
-{
-  let mouseY = useMotionValue(Infinity);
+  children: React.ReactNode;
+  onClick?: () => void;
+  mouseY: MotionValue<number>;
+  spring: SpringOptions;
+  distance: number;
+  baseItemSize: number;
+  magnification: number;
+  label?: React.ReactNode;
+};
+
+function DockItem({
+  children,
+  className = '',
+  onClick,
+  mouseY,
+  spring,
+  distance,
+  magnification,
+  baseItemSize,
+  label
+}: DockItemProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isHovered = useMotionValue(0);
+
+  const mouseDistance = useTransform(mouseY, val => {
+    const rect = ref.current?.getBoundingClientRect() ?? {
+      y: 0,
+      height: baseItemSize
+    };
+    return val - rect.y - baseItemSize / 2;
+  });
+
+  const targetSize = useTransform(mouseDistance, [-distance, 0, distance], [baseItemSize, magnification, baseItemSize]);
+  const size = useSpring(targetSize, spring);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.();
+    }
+  };
+
   return (
     <motion.div
-      onMouseMove={(e) => mouseY.set(e.clientY)}
-      onMouseLeave={() => mouseY.set(Infinity)}
-      className={cn(
-        "mx-auto hidden w-16 flex-col items-center gap-4 rounded-2xl bg-neutral-900/80 backdrop-blur-xl border border-white/10 shadow-[0_0_30px_-10px_rgba(255,255,255,0.1)] py-4 md:flex",
-        className,
-      )}
+      ref={ref}
+      style={{
+        width: size,
+        height: size
+      }}
+      onHoverStart={() => isHovered.set(1)}
+      onHoverEnd={() => isHovered.set(0)}
+      onFocus={() => isHovered.set(1)}
+      onBlur={() => isHovered.set(0)}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      className={`relative inline-flex items-center justify-center rounded-full bg-[#120F17] border-neutral-700 border-2 shadow-md ${className}`}
+      tabIndex={0}
+      role="button"
+      aria-haspopup="true"
+      aria-label={typeof label === 'string' ? label : undefined}
     >
-      {items.map((item) => (
-        <IconContainer mouseY={mouseY} key={item.title} {...item} />
-      ))}
+      {Children.map(children, child =>
+        React.isValidElement(child)
+          ? cloneElement(child as React.ReactElement<{ isHovered?: MotionValue<number> }>, { isHovered })
+          : child
+      )}
     </motion.div>
   );
+}
+
+type DockLabelProps = {
+  className?: string;
+  children: React.ReactNode;
+  isHovered?: MotionValue<number>;
 };
 
-function IconContainer({
-  mouseY,
-  title,
-  icon,
-  href,
-}: {
-  mouseY: MotionValue;
-  title: string;
-  icon: React.ReactNode;
-  href: string;
-})
-{
-  let ref = useRef<HTMLDivElement>(null);
+function DockLabel({ children, className = '', isHovered }: DockLabelProps) {
+  const [isVisible, setIsVisible] = useState(false);
 
-  let distance = useTransform(mouseY, (val) =>
-  {
-    let bounds = ref.current?.getBoundingClientRect() ?? { y: 0, height: 0 };
-
-    return val - bounds.y - bounds.height / 2;
-  });
-
-  let widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
-  let heightTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
-
-  let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
-  let heightTransformIcon = useTransform(
-    distance,
-    [-150, 0, 150],
-    [20, 40, 20],
-  );
-
-  let width = useSpring(widthTransform, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let height = useSpring(heightTransform, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-
-  let widthIcon = useSpring(widthTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let heightIcon = useSpring(heightTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-
-  const [hovered, setHovered] = useState(false);
+  useEffect(() => {
+    if (!isHovered) return;
+    const unsubscribe = isHovered.on('change', latest => {
+      setIsVisible(latest === 1);
+    });
+    return () => unsubscribe();
+  }, [isHovered]);
 
   return (
-    <a href={href}>
-      <motion.div
-        ref={ref}
-        style={{ width, height }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="relative flex aspect-square items-center justify-center rounded-full bg-gradient-to-b from-neutral-800 to-neutral-900 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_4px_8px_rgba(0,0,0,0.2)] hover:brightness-125 transition-all"
-      >
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0, x: -10, y: "-50%" }}
-              animate={{ opacity: 1, x: 0, y: "-50%" }}
-              exit={{ opacity: 0, x: -10, y: "-50%" }}
-              className="absolute left-full ml-2 top-1/2 w-fit -translate-y-1/2 rounded-md border border-gray-200 bg-white px-2 py-0.5 text-xs whitespace-pre text-black dark:border-neutral-900 dark:bg-neutral-800 dark:text-white"
-            >
-              {title}
-            </motion.div>
-          )}
-        </AnimatePresence>
+    <AnimatePresence>
+      {isVisible && (
         <motion.div
-          style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center "
+          initial={{ opacity: 0, x: 0 }}
+          animate={{ opacity: 1, x: 10 }}
+          exit={{ opacity: 0, x: 0 }}
+          transition={{ duration: 0.2 }}
+          className={`${className} absolute left-full ml-2 top-1/2 w-fit whitespace-pre rounded-md border border-neutral-700 bg-[#120F17] px-2 py-0.5 text-xs text-white`}
+          role="tooltip"
+          style={{ y: '-50%' }}
         >
-          {icon}
+          {children}
         </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+type DockIconProps = {
+  className?: string;
+  children: React.ReactNode;
+  isHovered?: MotionValue<number>;
+};
+
+function DockIcon({ children, className = '' }: DockIconProps) {
+  return <div className={`flex items-center justify-center ${className}`}>{children}</div>;
+}
+
+export default function Dock({
+  items,
+  className = '',
+  spring = { mass: 0.1, stiffness: 150, damping: 12 },
+  magnification = 90,
+  distance = 200,
+  panelWidth = 64,
+  dockWidth = 256,
+  baseItemSize = 50
+}: DockProps) {
+  const mouseY = useMotionValue(Infinity);
+  const isHovered = useMotionValue(0);
+
+  const maxWidth = useMemo(() => Math.max(dockWidth, magnification + magnification / 2 + 4), [magnification]);
+  const widthRow = useTransform(isHovered, [0, 1], [panelWidth, maxWidth]);
+  const width = useSpring(widthRow, spring);
+
+  return (
+    <motion.div style={{ width, scrollbarWidth: 'none' }} className="my-2 flex max-h-full justify-center">
+      <motion.div
+        onMouseMove={({ pageY }) => {
+          isHovered.set(1);
+          mouseY.set(pageY);
+        }}
+        onMouseLeave={() => {
+          isHovered.set(0);
+          mouseY.set(Infinity);
+        }}
+        className={`${className} absolute left-2 top-1/2 transform -translate-y-1/2 flex flex-col items-center w-fit gap-4 rounded-2xl border-neutral-700 border-2 pl-2 pr-2 py-4`}
+        style={{ width: panelWidth }}
+        role="toolbar"
+        aria-label="Application dock"
+      >
+        {items.map((item, index) => (
+          <DockItem
+            key={index}
+            onClick={item.onClick}
+            className={item.className}
+            mouseY={mouseY}
+            spring={spring}
+            distance={distance}
+            magnification={magnification}
+            baseItemSize={baseItemSize}
+            label={item.label}
+          >
+            <DockIcon>{item.icon}</DockIcon>
+            <DockLabel>{item.label}</DockLabel>
+          </DockItem>
+        ))}
       </motion.div>
-    </a>
+    </motion.div>
   );
 }
