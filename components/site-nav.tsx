@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 
 /* nav-bar-overlay — fixed top nav, transparent over the black canvas.
    Background {colors.canvas-night}, text {colors.on-primary},
@@ -23,40 +23,38 @@ const ALL_ITEMS = [
   { id: "contact", label: "Contact" },
 ];
 
-const scrollTo = (id: string) =>
+/* SEO.md §17 — nav items are real fragment links (crawlable, work without
+   JS). With JS we preventDefault so the existing smooth scroll still runs. */
+const jump = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+  event.preventDefault();
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+};
 
 export default function SiteNav({ resumeHref }: { resumeHref: string }) {
   const [open, setOpen] = useState(false);
 
-  const go = (id: string) => {
-    setOpen(false);
-    scrollTo(id);
-  };
-
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-hairline bg-background">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-6 px-6 py-4 lg:px-8">
-        <button
-          type="button"
-          onClick={() => go("home")}
+        <a
+          href="#home"
+          onClick={(event) => jump(event, "home")}
           className="button-cap text-[15px] text-white"
-          aria-label="Back to top"
         >
           Vivek Patil
-        </button>
+        </a>
 
         {/* Desktop nav items */}
         <nav aria-label="Sections" className="hidden items-center gap-8 lg:flex">
           {NAV_ITEMS.map((item) => (
-            <button
+            <a
               key={item.id}
-              type="button"
-              onClick={() => go(item.id)}
+              href={`#${item.id}`}
+              onClick={(event) => jump(event, item.id)}
               className="micro-cap text-mute transition-colors duration-150 hover:text-white"
             >
               {item.label}
-            </button>
+            </a>
           ))}
         </nav>
 
@@ -99,14 +97,17 @@ export default function SiteNav({ resumeHref }: { resumeHref: string }) {
           className="border-b border-hairline bg-background px-6 pb-6 pt-2 lg:hidden"
         >
           {ALL_ITEMS.map((item) => (
-            <button
+            <a
               key={item.id}
-              type="button"
-              onClick={() => go(item.id)}
+              href={`#${item.id}`}
+              onClick={(event) => {
+                jump(event, item.id);
+                setOpen(false);
+              }}
               className="micro-cap block w-full border-b border-hairline py-3 text-left text-mute transition-colors duration-150 hover:text-white"
             >
               {item.label}
-            </button>
+            </a>
           ))}
           <a
             href={resumeHref}

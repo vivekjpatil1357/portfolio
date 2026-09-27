@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { jsonLd, siteConfig, SITE_URL, isProduction } from "@/lib/seo";
 import "./globals.css";
 
 /* D-DIN substitute per DESIGN.md §Note on Font Substitutes:
@@ -9,34 +10,44 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+/* SEO.md §3 (copy) · §6 (canonical) · §9 (preview noindex)
+   §10 (Open Graph) · §11 (Twitter/X) — all driven from lib/seo.ts. */
 export const metadata: Metadata = {
-  title: "Vivek Patil - Software Developer",
-  description:
-    "Portfolio of Vivek Patil - Software Developer intern at Veltos AI, specializing in NestJS, Next.js, AWS and real-time platforms.",
-  metadataBase: new URL("https://vivekpatil.me"),
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: siteConfig.title,
+    template: "%s | Vivek Patil",
+  },
+  description: siteConfig.description,
+  authors: [{ name: siteConfig.author, url: SITE_URL }],
+  alternates: {
+    canonical: "/",
+  },
+  /* Production indexes; Vercel preview deployments do not (§9). */
+  robots: isProduction
+    ? { index: true, follow: true }
+    : { index: false, follow: false },
   openGraph: {
-    title: "Vivek Patil - Software Developer",
-    description:
-      "Portfolio of Vivek Patil - Software Developer intern at Veltos AI, specializing in NestJS, Next.js, AWS and real-time platforms.",
-    url: "https://vivekpatil.me",
+    type: "website",
+    locale: "en_US",
+    url: "/",
     siteName: "Vivek Patil Portfolio",
+    title: siteConfig.title,
+    description: siteConfig.description,
     images: [
       {
-        url: "/me.JPG",
-        width: 800,
-        height: 800,
-        alt: "Vivek Patil",
+        url: siteConfig.image.url,
+        width: siteConfig.image.width,
+        height: siteConfig.image.height,
+        alt: siteConfig.image.alt,
       },
     ],
-    locale: "en_US",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vivek Patil - Software Developer",
-    description:
-      "Portfolio of Vivek Patil - Software Developer intern at Veltos AI, specializing in NestJS, Next.js, AWS and real-time platforms.",
-    images: ["/me.JPG"],
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [{ url: siteConfig.image.url, alt: siteConfig.image.alt }],
   },
   icons: {
     icon: "/me.JPG",
@@ -52,7 +63,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} antialiased`}>{children}</body>
+      <body className={`${inter.variable} antialiased`}>
+        {/* SEO.md §12 Person · §13 WebSite — server-rendered JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

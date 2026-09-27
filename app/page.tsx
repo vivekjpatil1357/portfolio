@@ -249,7 +249,7 @@ export default function Home() {
             <div className="relative mt-12 h-[340px] sm:h-[420px] lg:hidden">
               <Image
                 src="/me.JPG"
-                alt="Vivek Patil"
+                alt="Vivek Patil - Software Developer"
                 fill
                 priority
                 sizes="100vw"
