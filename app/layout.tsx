@@ -1,29 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+/* D-DIN substitute per DESIGN.md §Note on Font Substitutes:
+   Inter at 700 with positive tracking + uppercase for display tiers. */
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   title: "Vivek Patil - Software Developer",
-  description: "Portfolio of Vivek Patil - Full Stack Developer specializing in React, Next.js, and Cloud Technologies",
+  description:
+    "Portfolio of Vivek Patil - Software Developer intern at Veltos AI, specializing in NestJS, Next.js, AWS and real-time platforms.",
   metadataBase: new URL("https://vivekpatil.me"),
   openGraph: {
     title: "Vivek Patil - Software Developer",
-    description: "Portfolio of Vivek Patil - Full Stack Developer specializing in React, Next.js, and Cloud Technologies",
+    description:
+      "Portfolio of Vivek Patil - Software Developer intern at Veltos AI, specializing in NestJS, Next.js, AWS and real-time platforms.",
     url: "https://vivekpatil.me",
     siteName: "Vivek Patil Portfolio",
     images: [
       {
-        url: "/me.png",
+        url: "/me.JPG",
         width: 800,
         height: 800,
         alt: "Vivek Patil",
@@ -35,13 +34,14 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Vivek Patil - Software Developer",
-    description: "Portfolio of Vivek Patil - Full Stack Developer specializing in React, Next.js, and Cloud Technologies",
-    images: ["/me.png"],
+    description:
+      "Portfolio of Vivek Patil - Software Developer intern at Veltos AI, specializing in NestJS, Next.js, AWS and real-time platforms.",
+    images: ["/me.JPG"],
   },
   icons: {
-    icon: "/me.png",
-    shortcut: "/me.png",
-    apple: "/me.png",
+    icon: "/me.JPG",
+    shortcut: "/me.JPG",
+    apple: "/me.JPG",
   },
 };
 
@@ -52,11 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${inter.variable} antialiased`}>{children}</body>
     </html>
   );
 }
